@@ -66,7 +66,7 @@ sudo chmod +x /usr/bin/rke
 From your local machine, deploy K8S on your baremetal servers using RKE
 
 ```bash
-[marc@marcrhel82 ~]$  rke up --config cluster.yaml --ssh-agent-auth -ignore-docker-version
+[marc@marcrhel82 ~]$  rke up --config cluster.yaml --ssh-agent-auth --ignore-docker-version
 ```
 
 My cluster config used above is at https://github.com/marcredhat/rke/blob/main/cluster.yaml
