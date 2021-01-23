@@ -1,0 +1,61 @@
+nodes:
+    - address: k8s-master
+      user: marc
+      role:
+        - controlplane
+        - etcd
+    - address: k8s-worker1
+      user: marc
+      role:
+        - worker
+    - address: k8s-worker2
+      user: marc
+      role:
+        - worker
+    - address: k8s-worker3
+      user: marc
+      role:
+        - worker
+    - address: k8s-worker4
+      user: marc
+      role:
+        - worker
+# If set to true, RKE will not fail when unsupported Docker versions
+# are found
+ignore_docker_version: false
+
+# Cluster level SSH private key
+# Used if no ssh information is set for the node
+ssh_key_path: /root/.ssh/id_rsa
+
+# Enable use of SSH agent to use SSH private keys with passphrase
+# This requires the environment `SSH_AUTH_SOCK` configured pointing
+#to your SSH agent which has the private key added
+ssh_agent_auth: true
+
+# Set the name of the Kubernetes cluster  
+cluster_name: marcrke
+
+
+services:
+
+authorization:
+    mode: rbac
+
+# Add-ons are deployed using kubernetes jobs. RKE will give
+# up on trying to get the job status after this timeout in seconds..
+addon_job_timeout: 30
+
+# Specify network plugin-in (canal, calico, flannel, weave, or none)
+# GJG remember that Canal is really Flannel+Calico https://rancher.com/blog/2019/2019-03-21-comparing-kubernetes-cni-providers-flannel-calico-canal-and-weave/
+network:
+    plugin: canal
+
+# Specify DNS provider (coredns or kube-dns)
+dns:
+    provider: coredns
+
+addons_include:
+  - https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.1/aio/deploy/recommended.yaml
+  - https://gist.githubusercontent.com/superseb/499f2caa2637c404af41cfb7e5f4a938/raw/930841ac00653fdff8beca61dab9a20bb8983782/k8s-dashboard-user.yml
+  - https://github.com/jetstack/cert-manager/releases/download/v0.15.1/cert-manager.yaml
