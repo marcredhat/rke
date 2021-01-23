@@ -1,22 +1,18 @@
 nodes:
-    - address: k8s-master
+    - address: ve1301
       user: marc
       role:
         - controlplane
         - etcd
-    - address: k8s-worker1
+    - address: ve1302
       user: marc
       role:
         - worker
-    - address: k8s-worker2
+    - address: ve1303
       user: marc
       role:
         - worker
-    - address: k8s-worker3
-      user: marc
-      role:
-        - worker
-    - address: k8s-worker4
+    - address: ve1304
       user: marc
       role:
         - worker
@@ -26,14 +22,14 @@ ignore_docker_version: false
 
 # Cluster level SSH private key
 # Used if no ssh information is set for the node
-ssh_key_path: /root/.ssh/id_rsa
+ssh_key_path: /home/marc/id_rsa
 
 # Enable use of SSH agent to use SSH private keys with passphrase
 # This requires the environment `SSH_AUTH_SOCK` configured pointing
 #to your SSH agent which has the private key added
 ssh_agent_auth: true
 
-# Set the name of the Kubernetes cluster  
+# Set the name of the Kubernetes cluster
 cluster_name: marcrke
 
 
