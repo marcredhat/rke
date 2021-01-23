@@ -110,11 +110,11 @@ kubectl create secret generic -n metallb-system memberlist --from-literal=secret
 
 On your baremetal servers, identify the IP network that MetalLB will be able to allocate addresses from 
 
-```
+```bash
 [root@ve1301 ~]# ip a | grep docker0
 15: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
     inet 172.19.0.1/16 brd 172.19.255.255 scope global docker0
-
+```
 
 My MetalLB pool configuration can be found at https://github.com/marcredhat/rke/blob/main/addresspoolcm.yaml
 
