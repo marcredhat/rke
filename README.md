@@ -27,7 +27,8 @@ so that external services on bare metal clusters also “just work” as much as
 
 From your local machine, ensure that you can ssh to all baremetal servers using a private key
 
-My baremetal server are ve1301, ve1302, ve1303, ve1304.
+
+My baremetal servers are ve1301, ve1302, ve1303, ve1304.
 
 ```bash
 [marc@marcrhel82 ~]$ ssh -i /home/marc/id_rsa marc@ve1301
