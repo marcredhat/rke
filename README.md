@@ -107,7 +107,7 @@ On first install only
 kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
 ```
 
-On the baremetal server, identify the IP network that MetalLB will be able to allocate addresses from 
+On your baremetal servers, identify the IP network that MetalLB will be able to allocate addresses from 
 
 ```
 [root@ve1301 ~]# ip a | grep docker0
@@ -144,7 +144,7 @@ NAME        TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)          AGE  
 nginx-web   LoadBalancer   10.xx.xx.xx   172.19.27.230   8080:30486/TCP   12h   app=nginx-web
 ```
 
-From any of your baremetal server, access the service via the external IP
+From any of your baremetal servers, access the service via the external IP
 
 ```bash
 [root@ve1302 ~]# curl  172.19.27.230:8080
