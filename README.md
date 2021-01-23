@@ -59,6 +59,75 @@ ve1303 Ready      worker              14h   v1.19.6
 ve1304 Ready      worker              14h   v1.19.6
 ```
 
+Add the generated kubeconfig to your .bashrc
+
+```bash
+export KUBECONFIG=/home/marc/kube_config_cluster.yaml
+```
+
+```bash
+source .bashrc
+```
+
+## Deploy MetalLB
+
+```bash
+kubectl create namespace metallb-system
+kubectl config set-context --namespace  metallb-system --current
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
+```
+
+On first install only
+
+```bash
+kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+```
+
+On the baremetal server, identify the IP network that MetalLB will be able to allocate addresses from 
+
+```
+[root@ve1301 ~]# ip a | grep docker0
+15: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+    inet 172.19.0.1/16 brd 172.19.255.255 scope global docker0
+
+
+My MetalLB pool configuration can be found at https://github.com/marcredhat/rke/blob/main/addresspoolcm.yaml
+
+The ConfigMap above tells MetalLB to allocate IP address from 172.19.27.230-172.19.27.250
+
+```bash    
+kubectl apply -f https://raw.githubusercontent.com/marcredhat/rke/main/addresspoolcm.yaml
+```
+
+
+Create a Deployment
+
+```bash
+oc apply -f https://raw.githubusercontent.com/marcredhat/kind/main/deploy.yaml
+```
+
+Expose the Deployment as type LoadBalancer
+
+```bash
+oc expose deploy nginx-web  --type=LoadBalancer
+```
+
+Check that MetalLB allocated an external IP from the range we specified in the ConfigMap
+
+```bash
+[marc@marcrhel82 ~]$ oc get svc -o wide
+NAME        TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)          AGE   SELECTOR
+nginx-web   LoadBalancer   10.xx.xx.xx   172.19.27.230   8080:30486/TCP   12h   app=nginx-web
+```
+
+From any of your baremetal server, access the service via the external IP
+
+```bash
+[root@ve1302 ~]# curl  172.19.27.230:8080
+Hello, world!
+Version: 1.0.0
+Hostname: nginx-web-7675865c58-b5lfw
+```
 
 
 
