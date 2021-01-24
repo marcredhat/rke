@@ -154,6 +154,18 @@ Version: 1.0.0
 Hostname: nginx-web-7675865c58-b5lfw
 ```
 
+
+## Storage 
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/longhorn/longhorn/master/deploy/longhorn.yaml
+kubectl apply -f  https://raw.githubusercontent.com/longhorn/longhorn/master/examples/storageclass.yaml
+kubectl patch storageclass longhorn  -p '{"metadata": {"annotations": {"storageclass.kubernetes.io/is-default-class": "true"}}}'
+```
+
+
+## Calico NetworkPolicies and IPAM
+
 ```bash
 [marc@marcrhel82 ~]$ calicoctl ipam show
 +----------+----------------+-----------+------------+--------------+
@@ -161,6 +173,9 @@ Hostname: nginx-web-7675865c58-b5lfw
 +----------+----------------+-----------+------------+--------------+
 | IP Pool  | 192.168.0.0/16 |     65536 | 0 (0%)     | 65536 (100%) |
 +----------+----------------+-----------+------------+--------------+
+```
+
+```bash
 [marc@marcrhel82 ~]$ calicoctl get nodes
 NAME
 ve1301
